@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'pay'
+            keyPassword 'mvc_android'
+            storeFile file('E:/AppProject/To_Pay_Sdk/sdk.jks')
+            storePassword 'mvc_android'
+        }
+    }
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.mvc.to_pay_sdk"
+        minSdkVersion 17
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME: "com.mvc.to_pay_sdk",
+                    JPUSH_APPKEY : "576849247abda8143679d4a6",
+                    JPUSH_CHANNEL: "developer-default",
+            ]
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:26+'
+    implementation 'com.android.support:design:26+'
+    //极光推送
+    implementation 'cn.jiguang.sdk:jpush:3.1.6'  // 此处以JPush 3.1.6 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:1.2.5'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':pay_lib')
+}

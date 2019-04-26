@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.mvc.to_pay_sdk">
+
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+	<!--极光必备权限-->
+	<!-- Required -->
+	<permission
+			android:name="${JPUSH_PKGNAME}.permission.JPUSH_MESSAGE"
+			android:protectionLevel="signature" />
+	<uses-permission android:name="${JPUSH_PKGNAME}.permission.JPUSH_MESSAGE" />
+	<!-- Required -->
+	<uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+	<application
+			android:allowBackup="true"
+			android:name=".MyApplication"
+			android:icon="@mipmap/demo_icon"
+			android:label="@string/app_name"
+			android:networkSecurityConfig="@xml/network_security_config"
+			android:roundIcon="@mipmap/demo_icon"
+			android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+			android:supportsRtl="true">
+		<activity android:name=".InpourActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity android:name=".MainActivity"/>
+		<activity android:name=".OrderActivity"/>
+		<receiver
+				android:name="com.mvc.topay.and.topay_android.receiver.PushReceiver"
+				android:enabled="true"
+				android:exported="false">
+			<intent-filter>
+				<!-- Required 用户注册SDK的intent -->
+				<action android:name="cn.jpush.android.intent.REGISTRATION"/>
+				<!-- Required 用户接收SDK消息的intent -->
+				<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
+				<!-- Required 用户接收SDK通知栏信息的intent -->
+				<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
+				<!-- Required 用户打开自定义通知栏的intent -->
+				<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
+				<!-- 接收网络变化 连接/断开 since 1.6.3 -->
+				<action android:name="cn.jpush.android.intent.CONNECTION"/>
+				<category android:name="${JPUSH_PKGNAME}"/>
+			</intent-filter>
+		</receiver>
+		<receiver android:name="com.mvc.topay.and.topay_android.receiver.MyJPushMessageReceiver">
+			<intent-filter>
+				<action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE"/>
+				<category android:name="${JPUSH_PKGNAME}"/>
+			</intent-filter>
+		</receiver>
+	</application>
+
+</manifest>
